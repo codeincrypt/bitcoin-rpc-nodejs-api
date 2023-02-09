@@ -16,7 +16,7 @@ const headers = {
 
 const router = express.Router();
 
-router.get("/", (req, res) => res.json({ error: "nothing will be found..." }));
+router.get("/", (req, res) => res.json({ message: "Invalid URL" }));
 
 router.get("/getblockhash/:index", (req, res) => {
   var dataString = `{"jsonrpc":"1.0","id":"paybito","method":"getblockhash","params":[${req.params.index}]}`;
@@ -34,7 +34,7 @@ router.get("/getblockhash/:index", (req, res) => {
       res.json({statuscode:1, data:data, error:null});
     } else {
       console.log('error', error)
-      return res.json({statuscode:0, data:null, error:error, statusCode:response.statusCode});
+      return res.json({statuscode:0, data:null, error:error});
     }
   };
   request(options, callback);
@@ -56,7 +56,29 @@ router.get("/getbalance", (req, res) => {
       res.json({statuscode:1, data:data, error:null});
     } else {
       console.log('error', error)
-      return res.json({statuscode:0, data:null, error:error, statusCode:response.statusCode});
+      return res.json({statuscode:0, data:null, error:error});
+    }
+  };
+  request(options, callback);
+});
+
+
+router.get("/gettransaction/:hash", (req, res) => {
+  var dataString = `{"jsonrpc": "1.0", "id": "paybito", "method": "gettransaction", "params": ["${req.params.hash}"]}`;
+  var options = {
+    url: ENDPOINTURL,
+    method: "POST",
+    headers: headers,
+    body: dataString
+  };
+
+  callback = (error, response, body) => {
+    if (!error && response.statusCode == 200) {
+      const data = JSON.parse(body);
+      res.json({statuscode:1, data:data, error:null});
+    } else {
+      console.log('error', response.statusCode, error)
+      return res.json({statuscode:0, data:null, error:error});
     }
   };
   request(options, callback);

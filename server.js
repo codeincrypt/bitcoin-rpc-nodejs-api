@@ -8,7 +8,7 @@ app.use(express.json())
 const rpcMethods = require("./routes/api");
 app.use("/api", rpcMethods);
 
-app.get("/", (req, res) => res.json({ error: "nothing will be found... get lost" }));
+app.get("/", (req, res) => res.json({ message: "Invalid URL" }));
 
 moment().tz("Asia/Calcutta").format();
 process.env.TZ = "Asia/Calcutta";
