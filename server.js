@@ -2,11 +2,11 @@ const express = require("express");
 const moment = require("moment-timezone");
 
 const app = express()
-const PORT = process.env.PORT || 10094;
+const PORT = process.env.PORT || 8000;
 app.use(express.json())
 
 const rpcMethods = require("./routes/api");
-app.use("/api/btc", rpcMethods);
+app.use("/api", rpcMethods);
 
 app.get("/", (req, res) => res.json({ error: "nothing will be found... get lost" }));
 
