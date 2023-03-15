@@ -107,4 +107,25 @@ router.get("/getaddressinfo/:address", (req, res) => {
 });
 
 
+router.get("/getnewaddress", (req, res) => {
+  var dataString = `{"jsonrpc": "1.0", "id": "paybito", "method": "getnewaddress", "params": []}`;
+  var options = {
+    url: ENDPOINTURL,
+    method: "POST",
+    headers: headers,
+    body: dataString
+  };
+
+  callback = (error, response, body) => {
+    if (!error && response.statusCode == 200) {
+      const data = JSON.parse(body);
+      res.json({statuscode:1, data:data, error:null});
+    } else {
+      console.log('error', error)
+      return res.json({statuscode:0, data:null, error:error});
+    }
+  };
+  request(options, callback);
+});
+
 module.exports = router;

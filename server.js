@@ -6,7 +6,10 @@ const PORT = process.env.PORT || 8000;
 app.use(express.json())
 
 const rpcMethods = require("./routes/api");
+// const listRpc = require("./routes/list");
+
 app.use("/api", rpcMethods);
+// app.use("/api/list", listRpc);
 
 app.get("/", (req, res) => res.json({ message: "Invalid URL" }));
 
